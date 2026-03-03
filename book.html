@@ -19,20 +19,7 @@
 <script>
 $(document).ready(function() {
     $.getJSON("google-books-book.json", function(data) {
-
-        let book = data.items[0].volumeInfo;
-
-        let html = `
-            <h2>${book.title}</h2>
-            <p><strong>Authors:</strong> ${book.authors}</p>
-            <p><strong>Publisher:</strong> ${book.publisher}</p>
-            <p><strong>Published Date:</strong> ${book.publishedDate}</p>
-            <p>${book.description}</p>
-            <img src="${book.imageLinks ? book.imageLinks.thumbnail : ''}" alt="Cover">
-            <p><a href="${book.infoLink}" target="_blank">More Info</a></p>
-        `;
-
-        $("#book").html(html);
+        console.log(data);
     });
 });
 </script>
