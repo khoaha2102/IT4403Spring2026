@@ -39,23 +39,32 @@
 <script>
 $(document).ready(function() {
 
-    $.getJSON("google-books-book.json", function(data) {
+   $.getJSON("google-books-book.json", function(data) {
 
-        var book = data.items[0].volumeInfo;
+    var book;
 
-        var html = `
-            <div class="book">
-                <h2>${book.title || "N/A"}</h2>
-                <p><strong>Authors:</strong> ${book.authors ? book.authors.join(", ") : "N/A"}</p>
-                <p><strong>Publisher:</strong> ${book.publisher || "N/A"}</p>
-                <p><strong>Published Date:</strong> ${book.publishedDate || "N/A"}</p>
-                <p>${book.description || "No description available."}</p>
-                ${book.imageLinks ? `<img src="${book.imageLinks.thumbnail}">` : ""}
-            </div>
-        `;
+    if (data.items && data.items.length > 0) {
+        book = data.items[0].volumeInfo;
+    } else if (data.volumeInfo) {
+        book = data.volumeInfo;
+    } else {
+        $("#book").html("<p>Error: Book data not found.</p>");
+        return;
+    }
 
-        $("#book").html(html);
-    });
+    var html = `
+        <div class="book">
+            <h2>${book.title || "N/A"}</h2>
+            <p><strong>Authors:</strong> ${book.authors ? book.authors.join(", ") : "N/A"}</p>
+            <p><strong>Publisher:</strong> ${book.publisher || "N/A"}</p>
+            <p><strong>Published Date:</strong> ${book.publishedDate || "N/A"}</p>
+            <p>${book.description || "No description available."}</p>
+            ${book.imageLinks ? `<img src="${book.imageLinks.thumbnail}">` : ""}
+        </div>
+    `;
+
+    $("#book").html(html);
+});
 
 });
 
