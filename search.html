@@ -19,32 +19,7 @@
 <script>
 $(document).ready(function() {
     $.getJSON("google-books-search.json", function(data) {
-
-        console.log(data);  // Keep temporarily to confirm structure
-
-        if (data.items && Array.isArray(data.items)) {
-
-            data.items.forEach(function(item) {
-
-                let info = item.volumeInfo;
-
-                let html = `
-                    <div class="book">
-                        <h2>${info.title || "No Title"}</h2>
-                        <p><strong>Authors:</strong> ${info.authors || "N/A"}</p>
-                        <p><strong>Published:</strong> ${info.publishedDate || "N/A"}</p>
-                        <img src="${info.imageLinks ? info.imageLinks.thumbnail : ''}" alt="Cover">
-                        <p><a href="${info.infoLink}" target="_blank">More Info</a></p>
-                    </div>
-                `;
-
-                $("#results").append(html);
-            });
-
-        } else {
-            console.error("items array not found in JSON.");
-        }
-
+        console.log(JSON.stringify(data, null, 2));
     });
 });
 </script>
