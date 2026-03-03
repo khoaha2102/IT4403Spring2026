@@ -4,23 +4,70 @@
     <meta charset="UTF-8">
     <title>Book Search Results</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .book { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
-        img { max-width: 150px; display: block; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        .book {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 25px;
+            max-width: 800px;
+        }
+
+        img {
+            max-width: 150px;
+            margin-top: 10px;
+        }
+
+        a {
+            color: #0056b3;
+        }
     </style>
 </head>
+
 <body>
 
 <a href="index.html">&larr; Back to Home</a>
+
 <h1>Book Search Results</h1>
+
 <div id="results"></div>
 
 <script>
 $(document).ready(function() {
+
     $.getJSON("google-books-search.json", function(data) {
-        console.log(JSON.stringify(data, null, 2));
+
+        $.each(data.items, function(index, item) {
+
+            var book = item.volumeInfo;
+
+            var html = `
+                <div class="book">
+                    <h2>${book.title || "N/A"}</h2>
+
+                    <p><strong>Authors:</strong> ${book.authors ? book.authors.join(", ") : "N/A"}</p>
+                    <p><strong>Publisher:</strong> ${book.publisher || "N/A"}</p>
+                    <p><strong>Published:</strong> ${book.publishedDate || "N/A"}</p>
+                    <p><strong>Categories:</strong> ${book.categories ? book.categories.join(", ") : "N/A"}</p>
+
+                    <p>${book.description ? book.description.substring(0, 300) + "..." : "No description available."}</p>
+
+                    ${book.imageLinks ? `<img src="${book.imageLinks.thumbnail}" alt="Book Cover">` : ""}
+
+                    ${book.previewLink ? `<p><a href="${book.previewLink}" target="_blank">Preview</a></p>` : ""}
+                </div>
+            `;
+
+            $("#results").append(html);
+        });
+
     });
+
 });
 </script>
 
