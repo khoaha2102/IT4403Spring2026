@@ -19,8 +19,11 @@
 <script>
 $(document).ready(function() {
     $.getJSON("google-books-search.json", function(data) {
-        data.items.forEach(function(item) {
+
+        data.forEach(function(item) {
+
             let info = item.volumeInfo;
+
             let html = `
                 <div class="book">
                     <h2>${info.title}</h2>
@@ -30,8 +33,10 @@ $(document).ready(function() {
                     <p><a href="${info.infoLink}" target="_blank">More Info</a></p>
                 </div>
             `;
+
             $("#results").append(html);
         });
+
     });
 });
 </script>
