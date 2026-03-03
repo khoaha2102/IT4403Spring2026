@@ -1,71 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Book Search Results</title>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
-        body {
-            font-family: Arial;
-            margin: 40px;
-        }
-
-        .book {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        img {
-            width: 120px;
-            margin-top: 10px;
-        }
-
-        a {
-            display: block;
-            margin-bottom: 20px;
-        }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .book { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
+        img { max-width: 150px; display: block; }
     </style>
 </head>
-
 <body>
 
-    <a href="index.html">← Back to Home</a>
+<a href="index.html">&larr; Back to Home</a>
+<h1>Book Search Results</h1>
+<div id="results"></div>
 
-    <h1>Book Search Results</h1>
-
-    <div id="books"></div>
-
-    <script>
-        $(document).ready(function () {
-
-            $.getJSON("google-books-search.json", function (data) {
-
-                let output = "";
-
-                $.each(data.items, function (index, item) {
-
-                    let book = item.volumeInfo;
-
-                    output += `
-                        <div class="book">
-                            <h2>${book.title}</h2>
-                            <p><strong>Authors:</strong> ${book.authors}</p>
-                            <p><strong>Publisher:</strong> ${book.publisher}</p>
-                            <p><strong>Published Date:</strong> ${book.publishedDate}</p>
-                            <img src="${book.imageLinks.thumbnail}" alt="Book Cover">
-                        </div>
-                    `;
-
-                });
-
-                $("#books").html(output);
-
-            });
-
+<script>
+$(document).ready(function() {
+    $.getJSON("google-books-search.json", function(data) {
+        data.items.forEach(function(item) {
+            let info = item.volumeInfo;
+            let html = `
+                <div class="book">
+                    <h2>${info.title}</h2>
+                    <p><strong>Authors:</strong> ${info.authors}</p>
+                    <p><strong>Published:</strong> ${info.publishedDate}</p>
+                    <img src="${info.imageLinks ? info.imageLinks.thumbnail : ''}" alt="Cover">
+                    <p><a href="${info.infoLink}" target="_blank">More Info</a></p>
+                </div>
+            `;
+            $("#results").append(html);
         });
-    </script>
+    });
+});
+</script>
 
 </body>
 </html>
