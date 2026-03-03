@@ -6,42 +6,66 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-        body { font-family: Arial; margin: 40px; }
-        .book { border: 1px solid gray; padding: 15px; margin: 15px; }
-        img { width: 120px; }
+        body {
+            font-family: Arial;
+            margin: 40px;
+        }
+
+        .book {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        img {
+            width: 120px;
+            margin-top: 10px;
+        }
+
+        a {
+            display: block;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
 
-<h1>Book Search Results</h1>
+    <a href="index.html">← Back to Home</a>
 
-<div id="books"></div>
+    <h1>Book Search Results</h1>
 
-<script>
-$(document).ready(function(){
+    <div id="books"></div>
 
-    $.getJSON("google-books-search.json", function(data){
+    <script>
+        $(document).ready(function () {
 
-        let output = "";
+            $.getJSON("google-books-search.json", function (data) {
 
-        $.each(data.items, function(index, item){
+                let output = "";
 
-            let book = item.volumeInfo;
+                $.each(data.items, function (index, item) {
 
-            output += `
-                <div class="book">
-                    <h2>${book.title}</h2>
-                    <p><strong>Author:</strong> ${book.authors}</p>
-                    <img src="${book.imageLinks.thumbnail}">
-                </div>
-            `;
+                    let book = item.volumeInfo;
+
+                    output += `
+                        <div class="book">
+                            <h2>${book.title}</h2>
+                            <p><strong>Authors:</strong> ${book.authors}</p>
+                            <p><strong>Publisher:</strong> ${book.publisher}</p>
+                            <p><strong>Published Date:</strong> ${book.publishedDate}</p>
+                            <img src="${book.imageLinks.thumbnail}" alt="Book Cover">
+                        </div>
+                    `;
+
+                });
+
+                $("#books").html(output);
+
+            });
+
         });
-
-        $("#books").html(output);
-    });
-
-});
-</script>
+    </script>
 
 </body>
 </html>
