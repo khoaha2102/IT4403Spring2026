@@ -1,65 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Single Book Information</title>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <meta charset="UTF-8">
+    <title>Single Book Details</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
-        body {
-            font-family: Arial;
-            margin: 40px;
-        }
-
-        .book-container {
-            border: 1px solid #ccc;
-            padding: 20px;
-            max-width: 700px;
-        }
-
-        img {
-            margin-top: 10px;
-            width: 200px;
-        }
-
-        a {
-            display: block;
-            margin-bottom: 20px;
-        }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .book { max-width: 700px; }
+        img { max-width: 200px; display: block; margin-top: 20px; }
     </style>
 </head>
-
 <body>
 
-    <a href="index.html">← Back to Home</a>
+<a href="index.html">&larr; Back to Home</a>
+<h1>Single Book Details</h1>
+<div id="book"></div>
 
-    <h1>Single Book Details</h1>
-
-    <div id="book" class="book-container"></div>
-
-    <script>
-        $(document).ready(function () {
-
-            $.getJSON("google-books-book.json", function (data) {
-
-                let book = data.volumeInfo;
-
-                let output = `
-                    <h2>${book.title}</h2>
-                    <p><strong>Authors:</strong> ${book.authors}</p>
-                    <p><strong>Publisher:</strong> ${book.publisher}</p>
-                    <p><strong>Published Date:</strong> ${book.publishedDate}</p>
-                    <p><strong>Page Count:</strong> ${book.pageCount}</p>
-                    <p><strong>Description:</strong> ${book.description}</p>
-                    <img src="${book.imageLinks.thumbnail}" alt="Book Cover">
-                `;
-
-                $("#book").html(output);
-
-            });
-
-        });
-    </script>
+<script>
+$(document).ready(function() {
+    $.getJSON("google-books-book.json", function(data) {
+        let book = data.volumeInfo;
+        let html = `
+            <h2>${book.title}</h2>
+            <p><strong>Authors:</strong> ${book.authors}</p>
+            <p><strong>Publisher:</strong> ${book.publisher}</p>
+            <p><strong>Published Date:</strong> ${book.publishedDate}</p>
+            <p>${book.description}</p>
+            <img src="${book.imageLinks ? book.imageLinks.thumbnail : ''}" alt="Cover">
+            <p><a href="${book.infoLink}" target="_blank">More Info</a></p>
+        `;
+        $("#book").html(html);
+    });
+});
+</script>
 
 </body>
 </html>
